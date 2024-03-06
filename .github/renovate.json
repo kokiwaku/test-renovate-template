@@ -15,6 +15,7 @@
     ],
     "timezone": "Asia/Tokyo",
     "prHourlyLimit": 0,
+    "rangeStrategy": "bump",
     "packageRules": [
         {
             "groupName": "all non-major dependencies",
