@@ -1,0 +1,34 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:best-practices"
+    ],
+    "branchPrefix": "renovate/",
+    "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
+    "labels": [
+        "renovate"
+    ],
+    "schedule": [
+        "after 7pm every weekday",
+        "before 5am every weekday",
+        "every weekend"
+    ],
+    "timezone": "Asia/Tokyo",
+    "prHourlyLimit": 0,
+    "packageRules": [
+        {
+            "groupName": "all non-major dependencies",
+            "groupSlug": "all-minor-patch",
+            "matchPackagePatterns": [
+                "*"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch",
+                "pin",
+                "digest"
+            ],
+            "automerge": true
+        }
+    ]
+}
