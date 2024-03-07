@@ -22,12 +22,6 @@
             "enabled": false
         },
         {
-            "matchDatasources": [
-                "docker"
-            ],
-            "rangeStrategy": "auto"
-        },
-        {
             "groupName": "all non-major dependencies",
             "groupSlug": "all-minor-patch",
             "matchPackagePatterns": [
