@@ -4,7 +4,6 @@
         "config:best-practices"
     ],
     "branchPrefix": "renovate/",
-    "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
     "labels": [
         "renovate"
     ],
@@ -15,6 +14,7 @@
     ],
     "timezone": "Asia/Tokyo",
     "prHourlyLimit": 0,
+    "rangeStrategy": "update-lockfile",
     "packageRules": [
         {
             "matchUpdateTypes": [
@@ -34,8 +34,7 @@
                 "pin",
                 "digest"
             ],
-            "automerge": true,
-            "rangeStrategy": "update-lockfile"
+            "automerge": true
         }
     ]
 }
