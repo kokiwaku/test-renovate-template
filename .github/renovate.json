@@ -14,7 +14,6 @@
     ],
     "timezone": "Asia/Tokyo",
     "prHourlyLimit": 0,
-    "rangeStrategy": "update-lockfile",
     "packageRules": [
         {
             "matchUpdateTypes": [
@@ -36,9 +35,7 @@
             ],
             "matchUpdateTypes": [
                 "minor",
-                "patch",
-                "pin",
-                "digest"
+                "patch"
             ],
             "automerge": true
         }
