@@ -1,3 +1,3 @@
-FROM nginx:1.23-bullseye
+FROM nginx:1.25-bullseye@sha256:b997b0db9c2bc0a2fb803ced5fb9ff3a757e54903a28ada3e50412cc3ab7822f
 
 COPY ./*.conf /etc/nginx/conf.d/
