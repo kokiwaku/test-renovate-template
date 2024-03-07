@@ -1,1 +1,1 @@
-FROM postgres:15-bullseye
+FROM postgres:15-bullseye@sha256:d9bf8af9c99bb5fecf2ab299a325c6e26fd8d469a349467fc46e5395ecd36469
