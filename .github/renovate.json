@@ -1,8 +1,7 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
-        "config:best-practices",
-        "group:allNonMajor"
+        "config:best-practices"
     ],
     "branchPrefix": "renovate/",
     "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
@@ -16,8 +15,13 @@
     ],
     "timezone": "Asia/Tokyo",
     "prHourlyLimit": 0,
-    "rangeStrategy": "update-lockfile",
     "packageRules": [
+        {
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "enabled": false
+        },
         {
             "groupName": "all non-major dependencies",
             "groupSlug": "all-minor-patch",
@@ -30,7 +34,8 @@
                 "pin",
                 "digest"
             ],
-            "automerge": true
+            "automerge": true,
+            "rangeStrategy": "update-lockfile"
         }
     ]
 }
