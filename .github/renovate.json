@@ -14,9 +14,7 @@
     ],
     "timezone": "Asia/Tokyo",
     "prHourlyLimit": 0,
-    "lockFileMaintenance": {
-        "enabled": true
-    },
+    "rangeStrategy": "bump",
     "packageRules": [
         {
             "matchUpdateTypes": [
@@ -33,8 +31,7 @@
             "matchUpdateTypes": [
                 "minor",
                 "patch"
-            ],
-            "automerge": true
+            ]
         }
     ]
 }
