@@ -19,6 +19,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workdir: './src/'
           eslint_flags: 'resources/**/*.{js,ts}'
+          fail_on_error: true
 
   status-check:
     runs-on: ubuntu-latest
