@@ -17,8 +17,8 @@ jobs:
       - uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          eslint_flags: 'src/**/*.{js,ts}'
           workdir: './src/'
+          eslint_flags: 'resources/**/*.{js,ts}'
 
   status-check:
     runs-on: ubuntu-latest
