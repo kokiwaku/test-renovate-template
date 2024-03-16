@@ -38,3 +38,13 @@ jobs:
         run: |
           cd src
           composer run cs-fixer-dry-run
+
+  # needsに指定したjobが一つでも失敗した場合、exit 1（失敗する）
+  status-check:
+    runs-on: ubuntu-latest
+    needs:
+      - eslint
+      - php-cs-fixer
+    if: failure()
+    steps:
+      - run: exit 1
