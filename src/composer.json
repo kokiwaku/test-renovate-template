@@ -49,6 +49,9 @@
         ],
         "cs-fixer-dry-run": [
             "vendor/bin/php-cs-fixer fix --dry-run --diff --ansi app"
+        ],
+        "cs-fixer": [
+            "vendor/bin/php-cs-fixer fix --diff --ansi app"
         ]
     },
     "extra": {
