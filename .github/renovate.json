@@ -4,6 +4,7 @@
         "config:recommended"
     ],
     "branchPrefix": "renovate/",
+    "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
     "labels": [
         "renovate"
     ],
