@@ -7,7 +7,6 @@
     "labels": [
         "renovate"
     ],
-    "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
     "schedule": [
         "after 7pm every weekday",
         "before 5am every weekday",
