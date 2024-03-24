@@ -4,10 +4,6 @@ on:
   workflow_dispatch:
   pull_request:
 
-permissions:
-  pull-requests: write
-  contents: write
-
 jobs:
   eslint:
     name: eslint
@@ -48,9 +44,15 @@ jobs:
     needs:
       - eslint
       - php-cs-fixer
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
       # status-checkに成功した場合には、PRをapproveする
       - name: Approve PR
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: success()
         run: gh pr review "$PR_URL" --approve
       # 失敗した場合には、終了
