@@ -34,7 +34,7 @@
                 "patch"
             ],
             "automerge": true,
-            "addLabels": "auto-merge"
+            "addLabels": ["auto-merge"]
         }
     ]
 }
