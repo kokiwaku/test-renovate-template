@@ -1,0 +1,28 @@
+name: auto-approve
+
+on:
+  pull_request:
+    types:
+      - synchronize # prにcommit がpushされた時
+      - opened # prがopenされた時
+      - ready_for_review # draft → prに変更された時
+      - reopened # closeされたprが再度openした時
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    # 管理者ユーザーが作成したprにのみapproveを許可する（public repositoryなので念の為...）
+    if: ${{ github.event.pull_request.user.login == 'kokiwaku' }}
+    env:
+      PR_URL: ${{github.event.pull_request.html_url}}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # prをapproveする
+      - name: Approve PR
+        run: gh pr review "$PR_URL" --approve
