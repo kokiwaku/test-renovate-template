@@ -65,7 +65,7 @@ jobs:
         run: gh pr review "$PR_URL" --approve
       # 失敗した場合には、apporoveを取り消して終了
       - name: Failure
-        if: failure()
+        if: always() && failure()
         run: |
           gh pr review "$PR_URL" --dismiss
           exit 1
