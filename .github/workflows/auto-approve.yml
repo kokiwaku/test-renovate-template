@@ -3,26 +3,67 @@ name: auto-approve
 on:
   pull_request:
     types:
-      - synchronize # prにcommit がpushされた時
-      - opened # prがopenされた時
-      - ready_for_review # draft → prに変更された時
-      - reopened # closeされたprが再度openした時
+      - synchronize
+      - opened
+      - ready_for_review
+      - reopened
 
 permissions:
   pull-requests: write
   contents: write
 
 jobs:
-  auto-merge:
+  eslint:
+    name: eslint
     runs-on: ubuntu-latest
-    # 管理者ユーザーが作成したprにのみapproveを許可する（public repositoryなので念の為...）
-    if: ${{ github.event.pull_request.user.login == 'kokiwaku' }}
-    env:
-      PR_URL: ${{github.event.pull_request.html_url}}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
-      - name: Checkout
+      - uses: actions/checkout@v4
+      # see https://github.com/reviewdog/action-eslint
+      - uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workdir: './src/'
+          eslint_flags: 'resources/**/*.{js,ts}'
+          fail_on_error: true
+
+  php-cs-fixer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v4
-      # prをapproveする
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: Install dependencies
+        run: |
+          cd src
+          composer install
+      - name: Run PHP CS Fixer
+        run: |
+          cd src
+          composer run cs-fixer-dry-run
+
+  status-check:
+    runs-on: ubuntu-latest
+    needs:
+      - eslint
+      - php-cs-fixer
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      # status-checkに成功した場合のみ、PRをapproveする
       - name: Approve PR
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: success()
         run: gh pr review "$PR_URL" --approve
+      # 失敗した場合には、終了
+      - name: Failure
+        if: failure()
+        run: exit 1
