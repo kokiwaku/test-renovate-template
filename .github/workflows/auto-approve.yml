@@ -59,13 +59,13 @@ jobs:
     steps:
       # status-checkに成功した場合のみ、PRをapproveする
       - name: Approve PR
+        if: success()
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: success()
         run: gh pr review "$PR_URL" --approve
       # 失敗した場合には、apporoveを取り消して終了
-      - name: Failure
+      - name: Dismiss PR
         if: failure()
         run: |
           gh pr review "$PR_URL" --dismiss
