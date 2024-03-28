@@ -49,24 +49,42 @@ jobs:
 
   status-check:
     runs-on: ubuntu-latest
-    if: always()
     needs:
       - eslint
       - php-cs-fixer
+    steps:
+      - name: Failure
+        if: failure()
+        run: exit 1
+
+  auto-approve:
+    runs-on: ubuntu-latest
+    if: success()
+    needs:
+      - status-check
     permissions:
       pull-requests: write
       contents: write
     steps:
       # status-checkに成功した場合のみ、PRをapproveする
       - name: Approve PR
-        if: success()
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr review "$PR_URL" --approve
-      # 失敗した場合には、apporoveを取り消して終了
-      - name: Dismiss PR
-        if: failure()
-        run: |
-          gh pr review "$PR_URL" --dismiss
-          exit 1
+
+  auto-dismiss:
+    runs-on: ubuntu-latest
+    if: always() && failure()
+    needs:
+      - status-check
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      # status-checkに成功した場合のみ、PRをapproveする
+      - name: Approve PR
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr review "$PR_URL" --approve
