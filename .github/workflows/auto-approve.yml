@@ -49,6 +49,7 @@ jobs:
 
   status-check:
     runs-on: ubuntu-latest
+    if: always()
     needs:
       - eslint
       - php-cs-fixer
@@ -65,7 +66,7 @@ jobs:
         run: gh pr review "$PR_URL" --approve
       # 失敗した場合には、apporoveを取り消して終了
       - name: Failure
-        if: always() && failure()
+        if: failure()
         run: |
           gh pr review "$PR_URL" --dismiss
           exit 1
