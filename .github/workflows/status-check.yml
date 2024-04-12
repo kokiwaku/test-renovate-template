@@ -58,4 +58,6 @@ jobs:
       # 失敗した場合には、終了
       - name: Failure
         if: failure()
-        run: exit 1
+        run: |
+          gh pr review "$PR_URL" --request-changes
+          exit 1
