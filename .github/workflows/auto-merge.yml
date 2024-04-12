@@ -17,9 +17,8 @@ permissions:
   contents: write
 
 jobs:
-  auto-merge:
+  toggle-auto-merge:
     runs-on: ubuntu-latest
-    if: ${{ (github.event.pull_request.user.login == 'kokiwaku' && contains(github.event.pull_request.labels.*.name, 'auto-merge')) }}
     env:
       PR_URL: ${{github.event.pull_request.html_url}}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -27,4 +26,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Enable auto-merge for Steward PRs
-        run: gh pr merge --merge --auto "$PR_URL"
+        if: ${{ (contains(github.event.pull_request.labels.*.name, 'auto-merge')) }}
+        run: gh pr merge --auto "$PR_URL"
+      - name: Disable auto-merge for Steward PRs
+        if: ${{ !(contains(github.event.pull_request.labels.*.name, 'auto-merge')) }}
+        run: gh pr merge --disable-auto "$PR_URL"
