@@ -55,7 +55,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: success()
         run: gh pr review "$PR_URL" --approve
-      # 失敗した場合には、終了
-      - name: Failure
+      # 失敗した場合には、RPのapproveを取り消して終了
+      - name: Dismiss PR and exit
         if: failure()
-        run: exit 1
+        run: |
+          gh pr review "$PR_URL" --request-changes
+          exit 1
